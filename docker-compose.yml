@@ -64,6 +64,23 @@ services:
     command: -config.file=/etc/promtail/promtail.yml
     networks:
       - monitoring
+  
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - proxy
+      - monitoring
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.kiwinet.me`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls.certresolver=letsencrypt"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.routers.grafana.middlewares=secure-headers@file"
 
 networks:
   proxy:
@@ -74,3 +91,4 @@ networks:
 volumes:
   prometheus_data:
   loki_data:
+  grafana_data:

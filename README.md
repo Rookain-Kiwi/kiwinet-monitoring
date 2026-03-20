@@ -89,14 +89,14 @@ Collecte les métriques système de la VM hôte : CPU global, RAM, utilisation d
 
 Agrège et indexe les logs. Reçoit les entrées de Promtail. Accessible via Grafana (Explore → Loki).
 
-> ⚠️ **Point critique - permissions Loki**  
-> Le container doit tourner avec `user: "0"` et monter son volume sur `/loki` (pas `/tmp/loki`) pour éviter les erreurs de permission à l'initialisation.
-> ```yaml
-> loki:
->   user: "0"
->   volumes:
->     - loki_data:/loki
-> ```
+**Point critique - permissions Loki**  
+Le container doit tourner avec `user: "0"` et monter son volume sur `/loki` (pas `/tmp/loki`) pour éviter les erreurs de permission à l'initialisation.
+```yaml
+loki:
+  user: "0"
+  volumes:
+    - loki_data:/loki
+```
 
 ### Promtail
 

@@ -7,7 +7,7 @@ Prometheus - cAdvisor - Node Exporter - Loki - Promtail - Grafana
 
 ## Rôle de ce repo
 
-Ce repo déploie la **stack d'observabilité interne** : métriques système, métriques containers, et agrégation de logs. Il répond à la question : **"Pourquoi ça a planté — et qu'est-ce qui se passe en ce moment ?"**
+Ce repo déploie la **stack d'observabilité interne** : métriques système, métriques containers, et agrégation de logs. Il répond à la question : **Pourquoi ça a planté — et qu'est-ce qui se passe en ce moment ?**
 
 C'est la couche complémentaire à Uptime Kuma (qui surveille la disponibilité externe). Grafana est le tableau de bord unifié qui consomme à la fois les métriques Prometheus et les logs Loki.
 

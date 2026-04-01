@@ -4,6 +4,11 @@
 # VM      : Debian 13.3 ARM AArch64 (Freebox Delta)
 # Images  : Prometheus, cAdvisor, Node Exporter, Loki, Promtail, Grafana
 # Accès   : https://grafana.kiwinet.me (via Traefik)
+# ── Optimisation cAdvisor (2026-04) ─────────────────────────────────────────
+# Ajout de --housekeeping_interval=30s (était 1s par défaut — source principale
+# de charge CPU : 124 % relevés en prod sur 2 vCPU).
+# Ajout de --disable_metrics pour désactiver les collecteurs non utilisés.
+# Ajout de ressources.limits comme filet de sécurité.
 ###############################################################################
 
 services:
@@ -40,6 +45,24 @@ services:
       - /var/run:/var/run:ro                # Sockets système (dont Docker)
       - /sys:/sys:ro                        # Informations kernel (cgroups, etc.)
       - /var/lib/docker/:/var/lib/docker:ro # Métadonnées des containers Docker
+    command:
+      # ⚡ Intervalle de collecte interne : 30s au lieu de 1s par défaut
+      # C'est le réglage le plus impactant — cAdvisor se réveillait 60× par
+      # minute pour inspecter tous les conteneurs, même sans scrape actif.
+      - "--housekeeping_interval=30s"
+      - "--max_housekeeping_interval=60s"
+      # ⚡ Désactivation des collecteurs non utilisés dans cette stack
+      # Supprime la collecte de métriques kernel avancées inutiles en prod légère
+      - "--disable_metrics=accelerator,cpu_topology,cpuset,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp"
+      # ⚡ Désactive le stockage des labels Docker dans cAdvisor (verbosité inutile)
+      - "--store_container_labels=false"
+    deploy:
+      resources:
+        limits:
+          # ⚡ Filet de sécurité : cAdvisor ne peut pas monopoliser plus de 40 %
+          # d'un cœur, même en cas de pic de scrape simultané.
+          cpus: "0.40"
+          memory: 256M
     networks:
       - monitoring
 

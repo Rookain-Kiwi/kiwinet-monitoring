@@ -50,10 +50,9 @@ services:
       # C'est le réglage le plus impactant — cAdvisor se réveillait 60× par
       # minute pour inspecter tous les conteneurs, même sans scrape actif.
       - "--housekeeping_interval=30s"
-      - "--max_housekeeping_interval=60s"
       # ⚡ Désactivation des collecteurs non utilisés dans cette stack
       # Supprime la collecte de métriques kernel avancées inutiles en prod légère
-      - "--disable_metrics=accelerator,cpu_topology,cpuset,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp"
+      - "--disable_metrics=cpu_topology,cpuset,memory_numa,process,referenced_memory,resctrl,sched,tcp,udp"
       # ⚡ Désactive le stockage des labels Docker dans cAdvisor (verbosité inutile)
       - "--store_container_labels=false"
     deploy:

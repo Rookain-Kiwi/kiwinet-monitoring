@@ -125,11 +125,11 @@ Interface de visualisation unifiée. Consomme Prometheus (métriques) et Loki (l
 
 ## Déploiement
 
-Ce repo est cloné sur la VM dans `/opt/kiwinet-monitoring/`. Le workflow est entièrement manuel pour le status (pas de CI/CD pour l'instant sur ce repo).
+Ce repo est cloné sur la VM dans `/opt/kiwinet-monitoring/`. Le workflow est entièrement manuel (pas de CI/CD pour l'instant sur ce repo).
 
 **Prérequis :**
 - Réseau Docker `proxy` existant (`docker network create proxy`)
-- DNS A `grafana.kiwinet.me` → `82.67.126.108`
+- DNS A `grafana.kiwinet.me` → `<IP_PUBLIQUE>`
 - Traefik actif sur la VM
 
 ```bash

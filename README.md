@@ -1,6 +1,6 @@
 # kiwinet-monitoring
 
-Stack d'observabilité interne de `kiwinet.me`  
+Stack d'observabilité interne de `Kiwinet`  
 Prometheus - cAdvisor - Node Exporter - Loki - Promtail - Grafana
 
 ---
